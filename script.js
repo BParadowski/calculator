@@ -2,14 +2,18 @@ let numLeft = "";
 let numRight = "";
 let currentNumber = "0";
 let currentOperand = "";
-// let upperDisplayContent = "";
-// let lowerDisplayContent = "";
 
 const upDisplay = document.getElementById("upperDisplay");
 const lowDisplay = document.getElementById("lowerDisplay");
 const equals = document.getElementById("equals");
+const clear = document.getElementById("clear");
+const backspace = document.getElementById("backspace");
+const point = document.getElementById("point");
 
+clear.addEventListener('click', wipeOut);
 equals.addEventListener('click', evaluate);
+backspace.addEventListener('click', erase);
+point.addEventListener("click", appendPoint);
 
 const numbers = document.querySelectorAll("#number");
 numbers.forEach(number => number.addEventListener('click', numPress));
@@ -19,6 +23,21 @@ operands.forEach(operand => operand.addEventListener('click', operandPress));
 
 updateLower();
 
+function appendPoint(){
+    if (currentNumber && !currentNumber.includes('.')){
+    currentNumber += "."; 
+    }
+    updateLower();
+}
+function erase(){
+    if (currentNumber && currentNumber !== "0"){
+    currentNumber = currentNumber.substring(0, currentNumber.length-1);
+    if ((currentNumber === "" || currentNumber ==="-") && currentOperand === ""){
+        currentNumber = "0";
+    }
+    updateLower();
+    }
+}
 function numPress(e){
     if (currentNumber && currentNumber !== "0"){
         currentNumber += this.textContent;
@@ -45,22 +64,33 @@ function operandPress(e){
         updateLower();
     }
 }
+function wipeOut(){
+    numLeft = "";
+    currentOperand = "";
+    currentNumber = "0";
+    updateUpper();
+    updateLower();
+}
 function evaluate(){
     if (numLeft && currentOperand && currentNumber){
         numRight = currentNumber;
-        currentNumber = operate(Number(numLeft), Number(numRight), currentOperand)
+        currentNumber = operate(Number(numLeft), Number(numRight), currentOperand);
+        currentNumber = String(+Number(currentNumber).toFixed(10));
         updateUpper();
         numRight = "";
         numLeft = "";
         currentOperand = "";
         updateLower();
     }
-
 }
 function updateUpper(){
-    upDisplay.textContent = numLeft + " " + currentOperand + " " + numRight + " = ";   
+    if (numLeft && currentOperand && numRight){
+        upDisplay.textContent = numLeft + " " + currentOperand + " " + numRight + " = ";   
+    }
+    else{
+        upDisplay.textContent = "";
+    }
 }
-
 function updateLower(){
     if (currentOperand){
         lowDisplay.textContent = numLeft + " " + currentOperand + " " + currentNumber;
@@ -76,7 +106,7 @@ function subtract(a,b){
     return a - b;
 }
 function times(a, b){
-    return a*b;
+    return (a*b);
 }
 function divide(a, b){
     if (b){
@@ -87,16 +117,16 @@ function divide(a, b){
 function operate(a,b, operand){
     switch(operand){
         case "+":
-            return add(a,b);
+            return String(add(a,b));
             break;
         case "-":
-            return subtract(a, b);
+            return String(subtract(a, b));
             break;
         case "*":
-            return times(a, b);
+            return String(times(a, b));
             break;
         case "/":
-            return divide(a,b);
+            return String(divide(a,b));
             break;
     }
 }
