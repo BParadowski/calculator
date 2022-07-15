@@ -75,7 +75,12 @@ function evaluate(){
     if (numLeft && currentOperand && currentNumber){
         numRight = currentNumber;
         currentNumber = operate(Number(numLeft), Number(numRight), currentOperand);
-        currentNumber = String(+Number(currentNumber).toFixed(10));
+        if (currentNumber > 10000000 || currentNumber < -10000000){
+            currentNumber = Number(currentNumber).toExponential(5);
+        }
+        else{
+            currentNumber = String(+Number(currentNumber).toFixed(10));
+        }
         updateUpper();
         numRight = "";
         numLeft = "";
