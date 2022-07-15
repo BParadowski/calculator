@@ -15,7 +15,6 @@ body{
     width: 360px;
     min-height: 600px;
     padding: 15px;
- 
     border-radius: 8px;
     background-color: gray;
     gap: 15px;
@@ -33,14 +32,17 @@ body{
     color: rgb(82, 82, 82);
     border-radius: 15px;
     font-size: 40px;
+    text-align: end;
     overflow-wrap : break-word;
     flex: auto;
 }
 .screen div{
     width: 330px;
     padding: 10px;
-}
 
+}#upperDisplay{
+    font-size: 28px;
+}
 .btnRow{
     display: flex;
     justify-content: space-between;
@@ -58,9 +60,9 @@ body{
     justify-content: center;
     font-size: 28px;
     font-weight: 600;
-    cursor: pointer;
 }
 
 .btnRow div:hover{
     background-color: rgb(248, 200, 136);
+    cursor: pointer;
 }
